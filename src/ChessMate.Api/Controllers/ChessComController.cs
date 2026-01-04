@@ -11,11 +11,15 @@ namespace ChessMate.Api.Controllers;
 public class ChessComController : ControllerBase
 {
     private readonly IChessGameClient _chessGameClient;
+    private readonly IPgnParser _pgnParser;
     private readonly ILogger<ChessComController> _logger;
 
-    public ChessComController(IChessGameClient chessGameClient, ILogger<ChessComController> logger)
+    public ChessComController(IChessGameClient chessGameClient, 
+        IPgnParser pgnParser,
+        ILogger<ChessComController> logger)
     {
         _chessGameClient = chessGameClient;
+        _pgnParser = pgnParser;
         _logger = logger;
     }
 
@@ -104,7 +108,7 @@ public class ChessComController : ControllerBase
     [HttpGet("player/{username}/games/{year:int}/{month:int}/pgn")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [Produces("text/plain")]
+    //[Produces("text/plain")]
     public async Task<IActionResult> DownloadPgn(string username, int year, int month, CancellationToken cancellationToken)
     {
         try
@@ -116,8 +120,10 @@ public class ChessComController : ControllerBase
                 return NotFound(new { message = "No games found for the specified period" });
             }
 
-            var fileName = $"{username}_{year}_{month:D2}.pgn";
-            return File(System.Text.Encoding.UTF8.GetBytes(pgn), "text/plain", fileName);
+            var parsedGames = _pgnParser.ParseGames(pgn).ToList();
+            return Ok(new { username, year, month, gameCount = parsedGames.Count, games = parsedGames });
+            //var fileName = $"{username}_{year}_{month:D2}.pgn";
+            //return File(System.Text.Encoding.UTF8.GetBytes(pgn), "text/plain", fileName);
         }
         catch (ArgumentException ex)
         {

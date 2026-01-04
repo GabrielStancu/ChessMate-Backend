@@ -1,4 +1,6 @@
 ﻿using ChessMate.Application.Interfaces;
+using ChessMate.Infrastructure.Chess;
+using ChessMate.Infrastructure.Chess.Services;
 using ChessMate.Infrastructure.Chesscom;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +17,9 @@ public static class DependencyInjection
             client.DefaultRequestHeaders.Add("User-Agent", "ChessAnalyzer/1.0");
             client.Timeout = TimeSpan.FromSeconds(30);
         });
+
+        services.AddScoped<IChessPositionService, ChessPositionService>();
+        services.AddScoped<IPgnParser, PgnParser>();
 
         return services;
     }
