@@ -10,4 +10,10 @@
     <ProjectReference Include="..\ChessMate.Shared\ChessMate.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Analysis\" />
+    <Folder Include="Feedback\" />
+    <Folder Include="Games\" />
+  </ItemGroup>
+
 </Project>
