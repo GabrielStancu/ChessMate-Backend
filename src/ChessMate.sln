@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessMate.Api", "ChessMate.Api\ChessMate.Api.csproj", "{6837B660-1F12-4E9D-8FEB-2D3186102E7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessMate.Application", "ChessMate.Application\ChessMate.Application.csproj", "{75E8E614-5F6C-4ECA-B799-BC07CEB5F92F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessMate.Domain", "ChessMate.Domain\ChessMate.Domain.csproj", "{E53C1D32-1F47-4228-9693-37C3FAEFFAB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessMate.Infrastructure", "ChessMate.Infrastructure\ChessMate.Infrastructure.csproj", "{A631515C-E57A-444C-9EC7-2311A63CB8D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessMate.Shared", "ChessMate.Shared\ChessMate.Shared.csproj", "{65BEEB2C-31B5-4029-960C-0D259E3E98B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6837B660-1F12-4E9D-8FEB-2D3186102E7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6837B660-1F12-4E9D-8FEB-2D3186102E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6837B660-1F12-4E9D-8FEB-2D3186102E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6837B660-1F12-4E9D-8FEB-2D3186102E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E8E614-5F6C-4ECA-B799-BC07CEB5F92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E8E614-5F6C-4ECA-B799-BC07CEB5F92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E8E614-5F6C-4ECA-B799-BC07CEB5F92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E8E614-5F6C-4ECA-B799-BC07CEB5F92F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53C1D32-1F47-4228-9693-37C3FAEFFAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53C1D32-1F47-4228-9693-37C3FAEFFAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53C1D32-1F47-4228-9693-37C3FAEFFAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53C1D32-1F47-4228-9693-37C3FAEFFAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A631515C-E57A-444C-9EC7-2311A63CB8D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A631515C-E57A-444C-9EC7-2311A63CB8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A631515C-E57A-444C-9EC7-2311A63CB8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A631515C-E57A-444C-9EC7-2311A63CB8D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65BEEB2C-31B5-4029-960C-0D259E3E98B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65BEEB2C-31B5-4029-960C-0D259E3E98B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65BEEB2C-31B5-4029-960C-0D259E3E98B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65BEEB2C-31B5-4029-960C-0D259E3E98B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E2AA77E-575F-4151-B579-08E848F0206E}
+	EndGlobalSection
+EndGlobal
