@@ -16,13 +16,8 @@ public sealed class ParsedMove
 
     private ParsedMove() { }
 
-    public ParsedMove(
-        int moveNumber,
-        PieceColor color,
-        string san,
-        FenPosition positionAfterMove,
-        string? comment = null,
-        TimeSpan? timeRemaining = null)
+    public ParsedMove(int moveNumber, PieceColor color, string san,
+        FenPosition positionAfterMove, string? comment = null, TimeSpan? timeRemaining = null)
     {
         if (moveNumber < 1)
             throw new ArgumentOutOfRangeException(nameof(moveNumber), "Move number must be positive");

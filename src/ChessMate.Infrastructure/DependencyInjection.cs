@@ -1,7 +1,6 @@
 ﻿using ChessMate.Application.Interfaces;
-using ChessMate.Infrastructure.Chess;
-using ChessMate.Infrastructure.Chess.Services;
 using ChessMate.Infrastructure.Chesscom;
+using ChessMate.Infrastructure.Stockfish;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChessMate.Infrastructure;
@@ -18,8 +17,13 @@ public static class DependencyInjection
             client.Timeout = TimeSpan.FromSeconds(30);
         });
 
-        services.AddScoped<IChessPositionService, ChessPositionService>();
-        services.AddScoped<IPgnParser, PgnParser>();
+        // Register Chess.com API service
+        services.AddHttpClient<IStockfishClient, StockfishClient>(client =>
+        {
+            //client.BaseAddress = new Uri("https://stockfish-engine-swn-001-fqh7bvbpdnccgxa8.switzerlandnorth-01.azurewebsites.net/");
+            client.BaseAddress = new Uri("https://localhost:5001");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
 
         return services;
     }

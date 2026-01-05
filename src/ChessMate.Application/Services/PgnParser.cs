@@ -3,10 +3,9 @@ using System.Text.RegularExpressions;
 using ChessMate.Application.Interfaces;
 using ChessMate.Domain.Chess.Entities;
 using ChessMate.Domain.Chess.ValueObjects;
-using ChessMate.Infrastructure.Chess.Services;
 using Microsoft.Extensions.Logging;
 
-namespace ChessMate.Infrastructure.Chess;
+namespace ChessMate.Application.Services;
 
 /// <summary>
 /// Implementation of PGN parser service
@@ -116,39 +115,23 @@ public sealed partial class PgnParser : IPgnParser
     {
         var moves = new List<ParsedMove>();
         var currentPosition = startingFen ?? FenPosition.StartingPosition;
-
-        // Remove comments, variations, and result
         var cleanedMoveText = CleanMoveText(moveText);
-
-        // Extract individual moves
         var moveMatches = MoveRegex().Matches(cleanedMoveText);
 
         foreach (Match match in moveMatches)
         {
             var moveNumber = int.Parse(match.Groups[1].Value);
-            var whiteSan = match.Groups[2].Value;
-            var blackSan = match.Groups[3].Success ? match.Groups[3].Value : null;
+            var dots = match.Groups[2].Value;
+            var sanMove = match.Groups[3].Value;
+            var color = dots == "." ? PieceColor.White : PieceColor.Black;
 
-            // Parse white's move
-            currentPosition = _positionService.MakeMove(currentPosition, whiteSan);
+            currentPosition = _positionService.MakeMove(currentPosition, sanMove);
             moves.Add(new ParsedMove(
                 moveNumber,
-                PieceColor.White,
-                whiteSan,
+                color,
+                sanMove,
                 new FenPosition(currentPosition)
             ));
-
-            // Parse black's move if present
-            if (!string.IsNullOrWhiteSpace(blackSan))
-            {
-                currentPosition = _positionService.MakeMove(currentPosition, blackSan);
-                moves.Add(new ParsedMove(
-                    moveNumber,
-                    PieceColor.Black,
-                    blackSan,
-                    new FenPosition(currentPosition)
-                ));
-            }
         }
 
         return moves;
@@ -156,19 +139,10 @@ public sealed partial class PgnParser : IPgnParser
 
     private string CleanMoveText(string moveText)
     {
-        // Remove comments in braces
         moveText = CommentBracesRegex().Replace(moveText, string.Empty);
-        
-        // Remove comments in parentheses
         moveText = CommentParenthesesRegex().Replace(moveText, string.Empty);
-        
-        // Remove variations
         moveText = VariationRegex().Replace(moveText, string.Empty);
-        
-        // Remove result markers
         moveText = ResultRegex().Replace(moveText, string.Empty);
-        
-        // Remove clock times
         moveText = ClockRegex().Replace(moveText, string.Empty);
 
         return moveText.Trim();
@@ -215,7 +189,7 @@ public sealed partial class PgnParser : IPgnParser
     [GeneratedRegex(@"\[(\w+)\s+""([^""]*)""\]")]
     private static partial Regex HeaderRegex();
 
-    [GeneratedRegex(@"(\d+)\.\s*([^\s]+)(?:\s+([^\s]+))?")]
+    [GeneratedRegex(@"(\d+)(\.{1,3})\s*([^\s]+)")]
     private static partial Regex MoveRegex();
 
     [GeneratedRegex(@"\{[^}]*\}")]

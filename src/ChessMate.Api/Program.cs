@@ -1,3 +1,4 @@
+using ChessMate.Application;
 using ChessMate.Infrastructure;
 using Microsoft.OpenApi.Models;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
 // Add Swagger services

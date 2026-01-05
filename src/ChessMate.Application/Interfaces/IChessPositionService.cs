@@ -12,11 +12,4 @@ public interface IChessPositionService
     /// <param name="sanMove">Move in Standard Algebraic Notation</param>
     /// <returns>FEN position after the move</returns>
     string MakeMove(string currentFen, string sanMove);
-
-    /// <summary>
-    /// Validates if a FEN string is well-formed
-    /// </summary>
-    /// <param name="fen">FEN string to validate</param>
-    /// <returns>True if valid, false otherwise</returns>
-    bool IsValidFen(string fen);
 }

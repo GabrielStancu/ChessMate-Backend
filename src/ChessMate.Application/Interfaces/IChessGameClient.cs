@@ -14,15 +14,7 @@ public interface IChessGameClient
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Player profile data</returns>
     Task<PlayerProfileDto> GetPlayerProfileAsync(string username, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Retrieves a list of available game archives for a player
-    /// </summary>
-    /// <param name="username">The Chess.com username</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>List of archive URLs</returns>
-    Task<IEnumerable<string>> GetGameArchivesAsync(string username, CancellationToken cancellationToken = default);
-
+    
     /// <summary>
     /// Retrieves games for a specific month from a player's archive
     /// </summary>

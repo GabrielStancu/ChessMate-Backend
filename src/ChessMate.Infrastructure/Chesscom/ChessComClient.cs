@@ -57,27 +57,6 @@ public sealed class ChessComClient : IChessGameClient
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<string>> GetGameArchivesAsync(string username, CancellationToken cancellationToken = default)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(username);
-
-        try
-        {
-            _logger.LogInformation("Fetching game archives for player: {Username}", username);
-
-            var response = await _httpClient.GetFromJsonAsync<ChessComArchivesResponse>(
-                $"player/{username}/games/archives", _jsonOptions, cancellationToken);
-
-            return response?.Archives ?? Enumerable.Empty<string>();
-        }
-        catch (HttpRequestException ex)
-        {
-            _logger.LogError(ex, "HTTP error occurred while fetching archives for {Username}", username);
-            throw;
-        }
-    }
-
-    /// <inheritdoc />
     public async Task<IEnumerable<ChessGameDto>> GetMonthlyGamesAsync(string username, int year, int month, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(username);
