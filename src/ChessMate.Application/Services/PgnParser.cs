@@ -126,12 +126,7 @@ public sealed partial class PgnParser : IPgnParser
             var color = dots == "." ? PieceColor.White : PieceColor.Black;
 
             currentPosition = _positionService.MakeMove(currentPosition, sanMove);
-            moves.Add(new ParsedMove(
-                moveNumber,
-                color,
-                sanMove,
-                new FenPosition(currentPosition)
-            ));
+            moves.Add(new ParsedMove(moveNumber, color, sanMove, new FenPosition(currentPosition)));
         }
 
         return moves;

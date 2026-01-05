@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 namespace ChessMate.Application.DTOs;
 
 /// <summary>
-/// Data transfer object for a chess move with position evaluations
+/// Data transfer object for a significant mistake in a chess game
 /// </summary>
-public sealed class EvaluatedMoveDto
+public sealed class SignificantMistakeDto
 {
     [JsonPropertyName("moveNumber")]
     public int MoveNumber { get; init; }
@@ -15,15 +15,6 @@ public sealed class EvaluatedMoveDto
 
     [JsonPropertyName("moveNotation")]
     public string MoveNotation { get; init; } = string.Empty;
-
-    [JsonPropertyName("positionBefore")]
-    public PositionEvaluationDto PositionBefore { get; init; } = null!;
-
-    [JsonPropertyName("positionAfter")]
-    public PositionEvaluationDto PositionAfter { get; init; } = null!;
-
-    [JsonPropertyName("evaluationChange")]
-    public int EvaluationChange { get; init; }
 
     [JsonPropertyName("centipawnLoss")]
     public int CentipawnLoss { get; init; }
@@ -37,6 +28,9 @@ public sealed class EvaluatedMoveDto
     [JsonPropertyName("classificationSymbol")]
     public string ClassificationSymbol { get; init; } = string.Empty;
 
-    [JsonPropertyName("isMistake")]
-    public bool IsMistake { get; init; }
+    [JsonPropertyName("positionFen")]
+    public string PositionFen { get; init; } = string.Empty;
+
+    [JsonPropertyName("bestMove")]
+    public string BestMove { get; init; } = string.Empty;
 }

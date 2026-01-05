@@ -12,8 +12,5 @@ public interface IGameEvaluationService
     /// <param name="depth">Stockfish search depth</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Evaluated game with position analysis for each move</returns>
-    Task<EvaluatedGameDto> EvaluateGameAsync(
-        ParsedGame game, 
-        int depth = 15, 
-        CancellationToken cancellationToken = default);
+    Task<EvaluatedGameDto> EvaluateGameAsync(ParsedGame game, int depth = 15, CancellationToken cancellationToken = default);
 }
