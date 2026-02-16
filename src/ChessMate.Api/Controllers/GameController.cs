@@ -20,6 +20,41 @@ public class GameController : ControllerBase
     }
 
     /// <summary>
+    /// Analyze a game from PGN with Stockfish evaluation
+    /// </summary>
+    /// <param name="request">The PGN content and analysis options</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Evaluated game with position analysis</returns>
+    [HttpPost("analyze")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> AnalyzeGame([FromBody] AnalyzeGameRequest request, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(request.Pgn))
+            {
+                return BadRequest(new { message = "PGN content is required" });
+            }
+
+            var depth = request.Depth ?? 15;
+            if (depth < 1 || depth > 30)
+            {
+                return BadRequest(new { message = "Depth must be between 1 and 30" });
+            }
+
+            var parsedGame = _pgnParser.ParseGame(request.Pgn);
+            var evaluatedGame = await _gameEvaluationService.EvaluateGameAsync(parsedGame, depth, cancellationToken);
+
+            return Ok(evaluatedGame);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    /// <summary>
     /// Evaluate a specific game with Stockfish analysis for each move
     /// </summary>
     /// <param name="username">Chess.com username</param>
@@ -65,4 +100,20 @@ public class GameController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
+}
+
+/// <summary>
+/// Request model for analyzing a game from PGN
+/// </summary>
+public sealed class AnalyzeGameRequest
+{
+    /// <summary>
+    /// The PGN content of the game to analyze
+    /// </summary>
+    public required string Pgn { get; init; }
+
+    /// <summary>
+    /// Stockfish evaluation depth (1-30, default: 15)
+    /// </summary>
+    public int? Depth { get; init; }
 }
