@@ -1,4 +1,7 @@
-﻿using ChessMate.Application.Interfaces;
+﻿using Azure;
+using Azure.AI.OpenAI;
+using ChessMate.Application.Interfaces;
+using ChessMate.Infrastructure.AzureOpenAi;
 using ChessMate.Infrastructure.Chesscom;
 using ChessMate.Infrastructure.Stockfish;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +12,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddSingleton<IMoveAnalyzerAgentClient, MoveAnalyzerAgentClient>();
+
         // Register Chess.com API service
         services.AddHttpClient<IChessGameClient, ChessComClient>(client =>
         {
@@ -20,10 +25,13 @@ public static class DependencyInjection
         // Register Chess.com API service
         services.AddHttpClient<IStockfishClient, StockfishClient>(client =>
         {
-            //client.BaseAddress = new Uri("https://stockfish-engine-swn-001-fqh7bvbpdnccgxa8.switzerlandnorth-01.azurewebsites.net/");
             client.BaseAddress = new Uri("https://localhost:5001");
             client.Timeout = TimeSpan.FromSeconds(30);
         });
+
+        // Register AzureOpenAIClient
+        services.AddSingleton(_ => new AzureOpenAIClient(new Uri(""), 
+            new AzureKeyCredential("")));
 
         return services;
     }

@@ -16,13 +16,16 @@ namespace ChessMate.Application.Services;
 public sealed class GameEvaluationService : IGameEvaluationService
 {
     private readonly IStockfishClient _stockfishClient;
+    private readonly IMoveAnalyzerAgentClient _moveAnalyzerAgentClient;
     private readonly ILogger<GameEvaluationService> _logger;
 
     public GameEvaluationService(
-        IStockfishClient stockfishClient, 
+        IStockfishClient stockfishClient,
+        IMoveAnalyzerAgentClient moveAnalyzerAgentClient,
         ILogger<GameEvaluationService> logger)
     {
         _stockfishClient = stockfishClient;
+        _moveAnalyzerAgentClient = moveAnalyzerAgentClient;
         _logger = logger;
     }
 
@@ -102,7 +105,8 @@ public sealed class GameEvaluationService : IGameEvaluationService
                 GamePhase = gamePhase.Description,
                 Classification = classification.Description,
                 ClassificationSymbol = classification.Symbol,
-                IsMistake = classification.IsMistake()
+                IsMistake = classification.IsMistake(),
+                IsGreatOrBrilliant = classification.IsGreatOrBrilliant(),
             });
 
             _logger.LogDebug("Evaluated move {MoveNumber}. {Color}: {Move} ({Phase}) - {Classification} (? {Change} cp)", 
@@ -118,7 +122,7 @@ public sealed class GameEvaluationService : IGameEvaluationService
             mistakeStats.WhiteInaccuracies, mistakeStats.WhiteMistakes, mistakeStats.WhiteBlunders,
             mistakeStats.BlackInaccuracies, mistakeStats.BlackMistakes, mistakeStats.BlackBlunders);
 
-        return new EvaluatedGameDto
+        var evaluatedGame = new EvaluatedGameDto
         {
             WhitePlayer = game.WhitePlayer,
             BlackPlayer = game.BlackPlayer,
@@ -136,6 +140,9 @@ public sealed class GameEvaluationService : IGameEvaluationService
             BlackMistakes = mistakeStats.BlackMistakes,
             BlackBlunders = mistakeStats.BlackBlunders
         };
+        await _moveAnalyzerAgentClient.AnalyzeGameAsync(evaluatedGame, cancellationToken);
+
+        return evaluatedGame;
     }
 
     private static MistakeStatistics CalculateMistakeStatistics(List<SignificantMistake> mistakes)

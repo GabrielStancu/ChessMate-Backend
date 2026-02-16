@@ -39,4 +39,23 @@ public sealed class EvaluatedMoveDto
 
     [JsonPropertyName("isMistake")]
     public bool IsMistake { get; init; }
+
+    [JsonPropertyName("isGreatOrBrilliant")]
+    public bool IsGreatOrBrilliant { get; init; }
+
+    [JsonPropertyName("intent")]
+    public string Intent { get; private set; } = string.Empty;
+
+    [JsonPropertyName("opponentIntent")]
+    public string OpponentIntent { get; private set; } = string.Empty;
+
+    [JsonPropertyName("suggestedPlan")]
+    public string SuggestedPlan { get; private set; } = string.Empty;
+
+    public void SetExplanations(string intent, string opponentIntent, string suggestedPlan)
+    {
+        Intent = intent;
+        OpponentIntent = opponentIntent;
+        SuggestedPlan = suggestedPlan;
+    }
 }

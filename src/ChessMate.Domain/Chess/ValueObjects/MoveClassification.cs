@@ -96,6 +96,8 @@ public sealed record MoveClassification
 
     public bool IsMistake() => Quality is MoveQuality.Inaccuracy or MoveQuality.Mistake or MoveQuality.Blunder;
 
+    public bool IsGreatOrBrilliant() => Quality is MoveQuality.Brilliant or MoveQuality.Great;
+
     public override string ToString() => Description;
 }
 
